@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	//v2.2
 	fmt.Println("-- FEED READER SERVER START -- ")
 	//define the handlers for the the services request
 

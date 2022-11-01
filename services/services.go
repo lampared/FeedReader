@@ -11,6 +11,11 @@ import (
 
 var Address = []string{"https://www.saperescienza.it/news/spazio-tempo?format=feed"}
 
+type SimpleResponse struct {
+	Status string
+	Value  string
+}
+
 type CommandRequest struct {
 	Command   string
 	Attribute string
@@ -86,10 +91,15 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// MLo1112o22: Receives a request in the form of a pair command,attributes
 	// Processes the command and invokes the methods to handle it
 	// It returns a JSON structure
+
+	var response SimpleResponse
 	ctx := req.Context()
 	select {
 	case <-time.After(1 * time.Second):
-		fmt.Fprintf(w, "[received command]\n")
+		response.Status = "Success"
+		response.Value = "0"
+		json.NewEncoder(w).Encode((response))
+		//fmt.Fprintf(w, "[received command]\n")
 	case <-ctx.Done():
 		err := ctx.Err()
 		log.Println("server:", err)
