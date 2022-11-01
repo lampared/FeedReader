@@ -151,9 +151,9 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 			log.Println("[ProcessCommand]-Received FETCH commmand")
 			retValue := FetchTopN("https://www.saperescienza.it/news/spazio-tempo?format=feed", 10)
 			log.Println(retValue)
-			res, _ := fmt.Printf("{result:[%v]}", retValue)
+			//res, _ := fmt.Printf("{result:[%v]}", retValue)
 
-			json.NewEncoder(w).Encode(res)
+			json.NewEncoder(w).Encode(fmt.Sprint(retValue))
 		}
 	default:
 		{
