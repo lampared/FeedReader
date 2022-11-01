@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println("-- FEED READER SERVER START -- ")
+	fmt.Println("-- .FEED READER SERVER START -- ")
 	services.TestService()
 	fmt.Println("-- FEED READER SERVER STOP -- ")
 }
