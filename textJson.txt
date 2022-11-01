@@ -1,1 +1,1 @@
-curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "New item", "year": "2009"}' https://feedreader.domenicolampare.repl.co/command
+curl -i -X POST -H 'Content-Type: application/json' -d '{"Command": "Fetch", "Attribute": "top10"}' https://feedreader.domenicolampare.repl.co/command
