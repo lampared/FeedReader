@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 var Address = []string{"https://www.saperescienza.it/news/spazio-tempo?format=feed"}
@@ -85,9 +86,16 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// MLo1112o22: Receives a request in the form of a pair command,attributes
 	// Processes the command and invokes the methods to handle it
 	// It returns a JSON structure
-	log.Println("IncomingCommand")
-	response := "Processing Incoming Command ..."
-	json.NewEncoder(w).Encode(response)
+	ctx := req.Context()
+	select {
+	case <-time.After(1 * time.Second):
+		fmt.Fprintf(w, "[received command]\n")
+	case <-ctx.Done():
+		err := ctx.Err()
+		log.Println("server:", err)
+		internalError := http.StatusInternalServerError
+		http.Error(w, err.Error(), internalError)
+	}
 }
 
 func DefaultService(w http.ResponseWriter, req *http.Request) {
