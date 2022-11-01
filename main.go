@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	//v2.5
+	version := "2.6.0"
 	logWriter, err := os.Create("feedreader.log")
 	if err != nil {
 		log.Fatalln("Unable to set logfile:", err.Error())
@@ -17,7 +17,7 @@ func main() {
 	// set the log output
 	log.SetOutput(logWriter)
 
-	fmt.Println("-- FEED READER SERVER START -- ")
+	fmt.Printf("\n-- FEED READER SERVER START version:%s-- \n", version)
 	//define the handlers for the the services request
 
 	http.HandleFunc("/", services.DefaultService)
