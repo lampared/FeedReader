@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"log"
@@ -80,14 +81,17 @@ func WebCrawler() {
 	}
 }
 
-func ProcessCommand() {
+func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// MLo1112o22: Receives a request in the form of a pair command,attributes
 	// Processes the command and invokes the methods to handle it
 	// It returns a JSON structure
 	log.Println("IncomingCommand")
+	response := "Processing Incoming Command ..."
+	json.NewEncoder(w).Encode(response)
 }
 
-func DefaultService() {
+func DefaultService(w http.ResponseWriter, req *http.Request) {
 	log.Println("WebServerStarted")
-
+	response := "Feed Reader Up and Running ..."
+	json.NewEncoder(w).Encode(response)
 }
