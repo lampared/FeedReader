@@ -148,6 +148,9 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	case "Fetch":
 		{
 			log.Println("[ProcessCommand]-Received FETCH commmand")
+			retValue := FetchTopN("https://www.saperescienza.it/news/spazio-tempo?format=feed", 10)
+			log.Println(retValue)
+
 		}
 	default:
 		{
