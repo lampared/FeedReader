@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/xml"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -77,4 +78,16 @@ func WebCrawler() {
 
 		Crawler(value)
 	}
+}
+
+func ProcessCommand() {
+	// MLo1112o22: Receives a request in the form of a pair command,attributes
+	// Processes the command and invokes the methods to handle it
+	// It returns a JSON structure
+	log.Println("IncomingCommand")
+}
+
+func DefaultService() {
+	log.Println("WebServerStarted")
+
 }
