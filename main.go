@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	fmt.Println("-- FEED READER SERVER START -- ")
+	fmt.Println("-- FEED READER SERVER STOP -- ")
 }
