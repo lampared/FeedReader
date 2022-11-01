@@ -42,6 +42,11 @@ type Item struct {
 	Enclosure Enclosure `xml:"enclosure"`
 }
 
+type ItemLink struct {
+	Title string
+	Link  string
+}
+
 type Channel struct {
 	Title string `xml:"title"`
 	Link  string `xml:"link"`
@@ -55,6 +60,38 @@ type Rss struct {
 
 func TestService() {
 	fmt.Println("Service Tested Successfully")
+}
+
+func FetchTopN(address string, n int) []ItemLink {
+	var TopItems []ItemLink
+	resp, err := http.Get(address)
+	if err != nil {
+		fmt.Printf("Error GET: %v\n", err)
+		return TopItems
+	}
+	defer resp.Body.Close()
+
+	rss := Rss{}
+
+	decoder := xml.NewDecoder(resp.Body)
+	err = decoder.Decode(&rss)
+	if err != nil {
+		fmt.Printf("Error Decode: %v\n", err)
+		return TopItems
+	}
+	var d ItemLink
+	var data Item
+	for _, item := range rss.Channel.Items {
+		data = item
+		fmt.Printf("[%s]:[%s]\n", data.Title, data.Link)
+		//Store Data Here(Establish Prior Connection With DB)
+		//Store.Insert(data)
+		d.Link = data.Link
+		d.Title = data.Title
+		TopItems = append(TopItems, d)
+
+	}
+	return TopItems[0:n]
 }
 
 func Crawler(address string) {
