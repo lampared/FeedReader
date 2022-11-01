@@ -139,8 +139,8 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// Processes the command and invokes the methods to handle it
 	// It returns a JSON structure
 
-	var response SimpleResponse
-	var iL []ItemLink
+	var response string
+
 	ctx := req.Context()
 	requestString, _ := ioutil.ReadAll(req.Body)
 	command := parseCommandRequest(requestString)
@@ -148,14 +148,12 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	switch command.Command {
 	case "Fetch":
 		{
-
 			log.Println("[ProcessCommand]-Received FETCH commmand")
 			retValue := FetchTopN("https://www.saperescienza.it/news/spazio-tempo?format=feed", 10)
 			log.Println(retValue)
 			res, _ := fmt.Printf("{result:[%v]}", retValue)
 
 			json.NewEncoder(w).Encode(res)
-
 		}
 	default:
 		{
@@ -172,8 +170,7 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 
 	select {
 	case <-time.After(1 * time.Second):
-		response.Status = "Success"
-		response.Value = iL
+		response = "response:cacca"
 		json.NewEncoder(w).Encode((response))
 		//fmt.Fprintf(w, "[received command]\n")
 	case <-ctx.Done():
