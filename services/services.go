@@ -143,8 +143,17 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	requestString, _ := ioutil.ReadAll(req.Body)
 	command := parseCommandRequest(requestString)
-	log.Println(command)
-	log.Printf("\ncommand:[%s]\nattribute:[%s]", command.Command, command.Attribute)
+	log.Printf("[ProcessCommand] Command:[%s] - Attribute:[%s]\n", command.Command, command.Attribute)
+	switch command.Command {
+	case "Fetch":
+		{
+			log.Println("[ProcessCommand]-Received FETCH commmand")
+		}
+	default:
+		{
+			log.Println("[ProcessCommand]- Unrecognized command")
+		}
+	}
 	_, err := httputil.DumpRequest(req, true)
 	if err != nil {
 		log.Fatal(err)
