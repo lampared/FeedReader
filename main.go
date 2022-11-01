@@ -4,13 +4,13 @@ import (
 	"FeedReader/services"
 	"fmt"
 	"log"
-	"log/syslog"
 	"net/http"
+	"os"
 )
 
 func main() {
-	//v2.4.1
-	logWriter, err := syslog.New(syslog.LOG_SYSLOG, "FeedReader")
+	//v2.4.2
+	logWriter, err := os.Create("feedreader.log")
 	if err != nil {
 		log.Fatalln("Unable to set logfile:", err.Error())
 	}
