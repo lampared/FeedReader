@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"time"
 )
 
@@ -87,6 +89,14 @@ func WebCrawler() {
 	}
 }
 
+func parseCommandRequest(inJson []byte) CommandRequest {
+
+	var output CommandRequest
+	json.Unmarshal(inJson, &output)
+	log.Printf("\n[output:%v]\n", output)
+	return output
+}
+
 func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// MLo1112o22: Receives a request in the form of a pair command,attributes
 	// Processes the command and invokes the methods to handle it
@@ -94,6 +104,17 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 
 	var response SimpleResponse
 	ctx := req.Context()
+	requestString, _ := ioutil.ReadAll(req.Body)
+	command := parseCommandRequest(requestString)
+	log.Println(command)
+	_, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		log.Fatal(err)
+		return
+	} else {
+		log.Printf("Request Received:  \n\n")
+	}
+
 	select {
 	case <-time.After(1 * time.Second):
 		response.Status = "Success"
