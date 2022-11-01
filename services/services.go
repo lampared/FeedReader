@@ -107,6 +107,7 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	requestString, _ := ioutil.ReadAll(req.Body)
 	command := parseCommandRequest(requestString)
 	log.Println(command)
+	log.Printf("\ncommand:[%s]\nattribute:[%s]", command.Command, command.Attribute)
 	_, err := httputil.DumpRequest(req, true)
 	if err != nil {
 		log.Fatal(err)
