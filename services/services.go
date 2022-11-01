@@ -148,12 +148,12 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	switch command.Command {
 	case "Fetch":
 		{
-			var res SimpleResponse
+
 			log.Println("[ProcessCommand]-Received FETCH commmand")
 			retValue := FetchTopN("https://www.saperescienza.it/news/spazio-tempo?format=feed", 10)
 			log.Println(retValue)
-			res.Status = "Success"
-			res.Value = retValue
+			res, _ := fmt.Printf("{result:[%v]}", retValue)
+
 			json.NewEncoder(w).Encode(res)
 
 		}
