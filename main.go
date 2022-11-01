@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println("-- .FEED READER SERVER START -- ")
+	fmt.Println("-- FEED READER SERVER START -- ")
 	//define the handlers for the the services request
 
 	http.HandleFunc("/", services.DefaultService)
