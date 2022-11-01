@@ -15,7 +15,7 @@ var Address = []string{"https://www.saperescienza.it/news/spazio-tempo?format=fe
 
 type SimpleResponse struct {
 	Status string
-	Value  string
+	Value  []ItemLink
 }
 
 type CommandRequest struct {
@@ -140,6 +140,7 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	// It returns a JSON structure
 
 	var response SimpleResponse
+	var iL []ItemLink
 	ctx := req.Context()
 	requestString, _ := ioutil.ReadAll(req.Body)
 	command := parseCommandRequest(requestString)
@@ -147,10 +148,13 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	switch command.Command {
 	case "Fetch":
 		{
+			var res SimpleResponse
 			log.Println("[ProcessCommand]-Received FETCH commmand")
 			retValue := FetchTopN("https://www.saperescienza.it/news/spazio-tempo?format=feed", 10)
 			log.Println(retValue)
-			json.NewEncoder(w).Encode(retValue)
+			res.Status = "Success"
+			res.Value = retValue
+			json.NewEncoder(w).Encode(res)
 
 		}
 	default:
@@ -169,7 +173,7 @@ func ProcessCommand(w http.ResponseWriter, req *http.Request) {
 	select {
 	case <-time.After(1 * time.Second):
 		response.Status = "Success"
-		response.Value = "0"
+		response.Value = iL
 		json.NewEncoder(w).Encode((response))
 		//fmt.Fprintf(w, "[received command]\n")
 	case <-ctx.Done():
