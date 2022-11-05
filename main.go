@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	version := "2.7.5"
+	version := "2.7.6"
 	logWriter, err := os.Create("feedreader.log")
 	if err != nil {
 		log.Fatalln("Unable to set logfile:", err.Error())

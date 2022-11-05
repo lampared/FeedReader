@@ -66,7 +66,7 @@ func FetchTopN(address string, n int) []ItemLink {
 	var TopItems []ItemLink
 	resp, err := http.Get(address)
 	if err != nil {
-		fmt.Printf("Error GET: %v\n", err)
+		log.Printf("Error GET: %v\n", err)
 		return TopItems
 	}
 	defer resp.Body.Close()
@@ -76,14 +76,14 @@ func FetchTopN(address string, n int) []ItemLink {
 	decoder := xml.NewDecoder(resp.Body)
 	err = decoder.Decode(&rss)
 	if err != nil {
-		fmt.Printf("Error Decode: %v\n", err)
+		log.Printf("Error Decode: %v\n", err)
 		return TopItems
 	}
 	var d ItemLink
 	var data Item
 	for _, item := range rss.Channel.Items {
 		data = item
-		fmt.Printf("[%s]:[%s]\n", data.Title, data.Link)
+		log.Printf("[%s]:[%s]\n", data.Title, data.Link)
 		//Store Data Here(Establish Prior Connection With DB)
 		//Store.Insert(data)
 		d.Link = data.Link
@@ -97,7 +97,7 @@ func FetchTopN(address string, n int) []ItemLink {
 func Crawler(address string) {
 	resp, err := http.Get(address)
 	if err != nil {
-		fmt.Printf("Error GET: %v\n", err)
+		log.Printf("Error GET: %v\n", err)
 		return
 	}
 	defer resp.Body.Close()
@@ -107,13 +107,13 @@ func Crawler(address string) {
 	decoder := xml.NewDecoder(resp.Body)
 	err = decoder.Decode(&rss)
 	if err != nil {
-		fmt.Printf("Error Decode: %v\n", err)
+		log.Printf("Error Decode: %v\n", err)
 		return
 	}
 	var data Item
 	for _, item := range rss.Channel.Items {
 		data = item
-		fmt.Printf("[%s]:[%s]\n", data.Title, data.Link)
+		log.Printf("[%s]:[%s]\n", data.Title, data.Link)
 		//Store Data Here(Establish Prior Connection With DB)
 		//Store.Insert(data)
 	}
